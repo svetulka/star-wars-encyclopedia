@@ -1,19 +1,60 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Star Wars <em>Encyclopedia</em>
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+<div class="container">
+  <h2 class="main-title">Star Wars <span class="sub-title">Encyclopedia</span>
+  </h2>
+  <hr>
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="active">
+      <a class="navbar-brand" href="#">
+        <span class="glyphicon glyphicon-user"></span> People
+      </a>
+    </li>
+  </ul>
+
+  <div class="tab-content">
+    <div id="#" class="tab-pane fade in active">
+      <div class="star-wars-people-list container">
+        <div class="row">
+          <nav class="search-field">
+            <input
+                class="form-control" type="text" name="search"
+                placeholder="Start typing for search..."
+                (keyup)="searchTerm$.next($event.target.value)">
+          </nav>
+          <div class="loader-container" *ngIf="loading">
+            <div class="loader"></div>
+          </div>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Gender</th>
+                <th>Created at</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let person of data |
+                    paginate: { itemsPerPage: 10,
+                                currentPage: page,
+                                totalItems: count }">
+                <td>{{person.name}}</td>
+                <td [ngClass]="[person.gender]">
+                  {{person.gender == 'n/a' ? 'Not avalible' : person.gender}}
+                </td>
+                <td>{{person.created | date:'dd/MM/yyyy hh:mm:ss a'}}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="container">
+            <pagination-controls
+                (pageChange)="newPage$.next($event)"
+                class="blue-pagination"
+                previousLabel=""
+                nextLabel="">
+            </pagination-controls>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
