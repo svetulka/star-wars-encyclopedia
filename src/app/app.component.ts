@@ -1,11 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Http, Response } from "@angular/http";
-import "rxjs/add/operator/map";
-
-import { Injectable } from '@angular/core';
 import { SearchService } from './search.service';
 import { Subject } from 'rxjs/Subject';
-import {Observable} from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-root',
@@ -15,20 +11,30 @@ import {Observable} from 'rxjs/Observable';
 })
 
 export class AppComponent {
-  data: Observable<any>;
   next;
   prev;
   page;
   count;
+  data: Observable<any>;
   searchTerm$ = new Subject<string>();
   newPage$ = new Subject<number>();
+  loading: boolean;
 
-  constructor(private searchService: SearchService) {
+  constructor(private searchService: SearchService) { }
+
+  ngOnInit() {
+    this.loading = true;
     this.searchService.search(this.searchTerm$, this.newPage$)
-      .subscribe(data => this.updateList(data) );
+      .subscribe(data => {
+        this.loading = false;
+        this.updateList(data)
+      });
 
       this.searchService.searchEntries(null, 0)
-        .subscribe(data => this.updateList(data) );
+        .subscribe(data => {
+          this.loading = false;
+          this.updateList(data)
+        });
   }
 
   updateList(data) {
@@ -37,6 +43,11 @@ export class AppComponent {
     this.prev = data.previous;
     this.count = data.count;
     this.page = 1;
+    console.log('this.data = ', this.data);
+    console.log('this.next = ', this.next);
+    console.log('this.prev = ', this.prev);
+    console.log('this.count = ', this.count);
+    console.log('this.page = ', this.page);
   }
 
 }

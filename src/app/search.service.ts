@@ -11,12 +11,8 @@ export class SearchService {
   baseUrl: string = 'https://swapi.co/api/people/';
   queryUrl: string = 'search=';
   queryPage: string = 'page=';
-  // loading: boolean;
-  private old = " ";
 
-  constructor(private http: Http) {
-    // this.loading = false;
-  }
+  constructor(private http: Http) {}
 
   search(terms: Observable<string>, page) {
     return terms.debounceTime(300)
@@ -26,10 +22,6 @@ export class SearchService {
 
   searchEntries(term, page) {
     var url = this.baseUrl;
-    // this.loading = true;
-    // if (term.length > 0) {
-    //   url = url + '?' + this.queryUrl + term;
-    // }
     if(term !== null && term.length > 0) {
       url = url + '?' + this.queryUrl + term;
     }
